@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Acessibilidade - PCD</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+<!-- Mapa -->
+<div id="map"></div>
+
+<div class="menu-lateral-icones">
+    <button class="icone-menu-btn" title="Início/Explorar">🏠</button>
+    <p>info1</p>
+    <button class="icone-menu-btn" title="Adicionar Local">➕</button>
+    <p>info2</p>
+    <button class="icone-menu-btn" title="Filtros">🔍</button>
+    <p>info3</p>
+</div>
+
+<!-- Painel Lateral Expansível (Começa oculto) -->
+<div id="menu-detalhes" class="oculto">
+</div>
+
+<!-- Leaflet JS & script -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script th:src="@{/script.js}"></script>
+</body>
+</html>
+
+
+
+

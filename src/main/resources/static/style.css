@@ -1,0 +1,214 @@
+/* ========================================================
+   DESKTOP
+   ======================================================== */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+#map {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* ========================================================
+   1. Painel Lateral
+   ======================================================== */
+.menu-lateral-icones {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 75px;
+    height: calc(100vh - 20px);
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+    gap: 12px;
+    z-index: 1000;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.icone-menu-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.icone-menu-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.menu-lateral-icones p {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: #17372D;
+    text-align: center;
+    width: 100%;
+    padding: 0 4px;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    white-space: normal;
+    line-height: 1.2;
+}
+
+/* ========================================================
+   2. Painel Lateral Expansível
+   ======================================================== */
+#menu-detalhes {
+    position: absolute;
+    top: 20px;
+    left: 90px;
+    width: 320px;
+    height: 100%;
+    max-height: calc(100vh - 40px);
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    box-sizing: border-box;
+    z-index: 999;
+    overflow-y: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Animação do Menu ocultando */
+#menu-detalhes.oculto {
+    transform: translateX(-30px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.conteudomenu {
+    padding: 15px;
+}
+
+.conteudomenu h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.conteudomenu p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.conteudomenu ul {
+    padding-left: 20px;
+    margin: 12px 0 0 0;
+}
+
+.conteudomenu li {
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    display: block;
+}
+
+/* ========================================================
+   Estilização SVG Pino
+   ======================================================== */
+.custom-svg-pin {
+    background: transparent;
+    border: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.custom-svg-pin svg path {
+    transition: fill 0.2s ease;
+}
+
+.pin-verde svg path {
+    fill: #18734F;
+}
+
+/* Inativo */
+.pin-cinza svg path {
+    fill: #6c757d;
+}
+
+.pin-cinza {
+    opacity: 0.55;
+}
+
+/* ========================================================
+   MOBILE
+   ======================================================== */
+@media (max-width: 768px) {
+    #map {
+        position: relative;
+        width: 100%;
+        height: 92%;
+        top: auto;
+        left: auto;
+    }
+
+    .menu-lateral-icones {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        flex-direction: row;
+        width: 100%;
+        height: 65px;               /* Altura fixa reservada exclusivamente para o menu */
+        background: #ffffff;
+        border-radius: 0;           /* Tira o arredondamento para encaixar perfeitamente */
+        border-top: 1px solid #e0e0e0; /* Divisória sutil entre o mapa e os botões */
+        padding: 0;
+        gap: 0;
+        justify-content: space-around;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .menu-lateral-icones .icone-menu-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
+    }
+
+    .menu-lateral-icones p {
+        display: none;
+    }
+    #menu-detalhes {
+        position: absolute;
+        top: auto;
+        bottom: 75px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-height: 40vh;
+        z-index: 1001;
+    }
+}
