@@ -9,28 +9,67 @@
 </head>
 <body>
 
+<!-- Barra de Pesquisa e Sugestões -->
+<div class="barra-pesquisa">
+    <input id="pesquisa-local" type="search" placeholder="Pesquisar local..."
+           aria-label="Pesquisar locais acessíveis" role="combobox"
+           aria-autocomplete="list" aria-controls="sugestoes-locais"
+           aria-expanded="false">
+    <ul id="sugestoes-locais" class="sugestoes-locais" role="listbox" hidden></ul>
+</div>
+
+<!-- Navegação Superior -->
+<nav class="navbar-topo" aria-label="Navegação principal">
+    <div class="navbar-logo" aria-label="Espaço para logo">Logo</div>
+    <a class="navbar-sobre" href="#sobre">Sobre nós</a>
+</nav>
+
 <!-- Mapa -->
 <div id="map"></div>
 
+<!-- Menu Lateral de Ícones -->
 <div class="menu-lateral-icones">
-    <button class="icone-menu-btn" title="Início/Explorar">🏠</button>
-    <p>info1</p>
-    <button class="icone-menu-btn" title="Adicionar Local">➕</button>
-    <p>info2</p>
-    <button class="icone-menu-btn" title="Filtros">🔍</button>
-    <p>info3</p>
+    <div class="menu-superior">
+        <button id="botao-explorar" class="icone-menu-btn" type="button"
+                title="Início/Explorar" href="home.html">🖼️</button>
+        <p>Explorar</p>
+        <button id="abrir-filtros" class="icone-menu-btn" type="button"
+                title="Filtros" aria-controls="painel-filtros" aria-expanded="false">🖼️</button>
+        <p>Filtros</p>
+        <hr class="divider">
+        <button class="icone-menu-btn contribuir" title="Contribuir">+</button>
+        <p>Contribuir!</p>
+    </div>
+
+    <div class="menu-inferior">
+        <button class="icone-menu-btn" title="Perfil">🖼️</button>
+        <p>Perfil</p>
+    </div>
 </div>
 
-<!-- Painel Lateral Expansível (Começa oculto) -->
-<div id="menu-detalhes" class="oculto">
-</div>
+<!-- Painel Lateral Expansível (Começa Oculto) -->
+<div id="menu-detalhes" class="oculto"></div>
 
-<!-- Leaflet JS & script -->
+<!-- Camada de Filtros e Painel de Opções -->
+<button id="filtros-overlay" class="filtros-overlay" type="button"
+        aria-label="Fechar filtros" aria-hidden="true" tabindex="-1"></button>
+<section id="painel-filtros" class="painel-filtros" role="dialog"
+         aria-modal="true" aria-labelledby="filtros-titulo" aria-hidden="true">
+    <header class="cabecalho-filtros">
+        <h2 id="filtros-titulo">Filtros</h2>
+        <button id="fechar-filtros" class="fechar-filtros" type="button"
+                aria-label="Fechar filtros">×</button>
+    </header>
+    <fieldset id="opcoes-filtros" class="opcoes-filtros">
+        <legend>Filtros de acessibilidade</legend>
+    </fieldset>
+    <p id="resultado-filtros" class="resultado-filtros" aria-live="polite"></p>
+    <button id="limpar-filtros" class="limpar-filtros" type="button">Limpar filtros</button>
+</section>
+
+<!-- Bibliotecas e Scripts -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script th:src="@{/script.js}"></script>
 </body>
 </html>
-
-
-
 

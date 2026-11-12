@@ -19,26 +19,133 @@ html, body {
     z-index: 1;
 }
 
+/* Controle dos botoes de zoom */
+.leaflet-top {
+    top: 65px !important;
+}
+
+.barra-pesquisa {
+    position: absolute;
+    top: 10px;
+    left: 85px;
+    width: 300px;
+    z-index: 2000;
+    margin: 10px;
+}
+
+.barra-pesquisa input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    font: inherit;
+}
+
+.navbar-topo {
+    position: absolute;
+    top: 20px;
+    left: 415px;
+    z-index: 2000;
+    width: calc(100% - 430px);
+    height: 44px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 20px;
+    padding: 0 16px;
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    color: #ffffff;
+    background-color: #18734F;
+}
+
+.navbar-logo {
+    min-width: 64px;
+    font-weight: bold;
+}
+
+.navbar-sobre {
+    white-space: nowrap;
+    color: #ffffff;
+}
+
+.sugestoes-locais {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    max-height: 280px;
+    margin: 0;
+    padding: 4px 0;
+    overflow-y: auto;
+    list-style: none;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.sugestoes-locais[hidden] {
+    display: none;
+}
+
+.sugestoes-locais li {
+    padding: 11px 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.sugestoes-locais li[aria-selected="true"],
+.sugestoes-locais li[role="option"]:hover {
+    background: #f0f0f0;
+}
+
+.sugestoes-locais .sem-resultados {
+    color: #666;
+    cursor: default;
+}
+
 /* ========================================================
    1. Painel Lateral
    ======================================================== */
 .menu-lateral-icones {
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    position: fixed; /* Garante que fique fixo na tela mesmo se houver rolagem */
+    top: 0;
+    left: 0;
+    height: 100vh;   /* Ocupa 100% da altura visível da tela */
     width: 75px;
-    height: calc(100vh - 20px);
     background: white;
-    border-radius: 12px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 15px;
-    gap: 12px;
-    z-index: 1000;
+    justify-content: space-between; /* Empurra .menu-superior para o topo e .menu-inferior para baixo */
+    padding: 15px 0;
+    z-index: 4000;
     box-sizing: border-box;
     overflow-y: auto;
+}
+
+.menu-superior {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px; /* Controla o espaçamento justo entre os itens de cima */
+    width: 100%;
+}
+
+.menu-inferior {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
 }
 
 .icone-menu-btn {
@@ -56,6 +163,11 @@ html, body {
     flex-shrink: 0;
 }
 
+.icone-menu-btn.contribuir {
+    background-color: #18734F !important;
+    color: white;
+}
+
 .icone-menu-btn:hover {
     background-color: #f0f0f0;
 }
@@ -63,7 +175,7 @@ html, body {
 .menu-lateral-icones p {
     margin: 0 0 8px 0;
     font-size: 12px;
-    color: #17372D;
+    color: #18734F;
     text-align: center;
     width: 100%;
     padding: 0 4px;
@@ -73,16 +185,31 @@ html, body {
     line-height: 1.2;
 }
 
+.menu-inferior p {
+    margin: 0;
+}
+
+.divider {
+    display: block;
+    flex: 0 0 auto;
+    width: calc(100% - 24px);
+    height: 5px;
+    border: 0;
+    background-color: #18734F;
+    margin: 8px 0;
+    border-radius: 2px;
+}
+
 /* ========================================================
    2. Painel Lateral Expansível
    ======================================================== */
 #menu-detalhes {
     position: absolute;
-    top: 20px;
-    left: 90px;
+    top: 10px;
+    left: 85px;
     width: 320px;
     height: 100%;
-    max-height: calc(100vh - 40px);
+    max-height: calc(100vh - 20px);
     background: white;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.25);
@@ -99,6 +226,127 @@ html, body {
     pointer-events: none;
 }
 
+/* ========================================================
+   3. Aba de Filtros
+   ======================================================== */
+.filtros-overlay {
+    position: fixed;
+    inset: 0 0 0 75px;
+    z-index: 3000;
+    padding: 0;
+    border: 0;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.painel-filtros {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 75px;
+    z-index: 3000;
+    width: min(360px, calc(100vw - 75px));
+    padding: 20px;
+    overflow-y: auto;
+    background: #ffffff;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0.3s ease;
+}
+
+body.filtros-abertos .filtros-overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+body.filtros-abertos .painel-filtros {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+.cabecalho-filtros {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.cabecalho-filtros h2 {
+    margin: 0;
+    color: #17372D;
+    font-size: 20px;
+}
+
+.fechar-filtros {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #17372D;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.fechar-filtros:hover {
+    background: #f0f0f0;
+}
+
+.opcoes-filtros {
+    display: grid;
+    gap: 12px;
+    margin: 20px 0;
+    padding: 0;
+    border: 0;
+}
+
+.opcoes-filtros legend {
+    margin-bottom: 12px;
+    color: #17372D;
+    font-weight: bold;
+}
+
+.opcao-filtro {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333333;
+    cursor: pointer;
+}
+
+.opcao-filtro input {
+    width: 18px;
+    height: 18px;
+    accent-color: #18734F;
+}
+
+.resultado-filtros {
+    color: #666666;
+    font-size: 14px;
+}
+
+.limpar-filtros {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid #18734F;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #18734F;
+    font: inherit;
+    cursor: pointer;
+}
+
+.limpar-filtros:hover {
+    background: #f0f7f3;
+}
+
 .conteudomenu {
     padding: 15px;
 }
@@ -107,6 +355,7 @@ html, body {
     margin: 0 0 8px 0;
     font-size: 18px;
     color: #333;
+    color: #17372D;
 }
 
 .conteudomenu p {
@@ -192,6 +441,30 @@ html, body {
         overflow: hidden;
     }
 
+    .menu-superior {
+        display: contents;
+    }
+
+    .menu-inferior {
+        display: none;
+    }
+
+    .menu-espacador {
+        display: none;
+    }
+
+    .menu-superior > .icone-menu-btn[title="Início/Explorar"] {
+        order: 1;
+    }
+
+    .menu-superior > .icone-menu-btn[title="Contribuir"] {
+        order: 2;
+    }
+
+    .menu-superior > .icone-menu-btn[title="Filtros"] {
+        order: 3;
+    }
+
     .menu-lateral-icones .icone-menu-btn {
         width: 45px;
         height: 45px;
@@ -201,6 +474,48 @@ html, body {
     .menu-lateral-icones p {
         display: none;
     }
+
+    .menu-lateral-icones .divider {
+        display: none;
+    }
+
+    .barra-pesquisa {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        z-index: 2000;
+        margin: 0 auto;
+    }
+
+    .navbar-topo {
+        display: none;
+    }
+
+    /* A aba sobe no mobile sem cobrir o menu inferior */
+    .filtros-overlay {
+        inset: 0 0 65px;
+    }
+
+    .painel-filtros {
+        top: auto;
+        right: 0;
+        bottom: 65px;
+        left: 0;
+        width: 100%;
+        height: 75vh;
+        max-height: calc(100vh - 65px);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+        transform: translateY(100%);
+        z-index: 3001;
+    }
+
+    body.filtros-abertos .painel-filtros {
+        transform: translateY(0);
+    }
+
     #menu-detalhes {
         position: absolute;
         top: auto;
