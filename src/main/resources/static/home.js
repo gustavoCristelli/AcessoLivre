@@ -563,7 +563,6 @@ botaoVoltarPesquisa.addEventListener('click', fecharModoTrajeto);
 // ========================================================
 const botaoAbrirFiltros = document.getElementById('abrir-filtros');
 const botaoFecharFiltros = document.getElementById('fechar-filtros');
-const botaoExplorar = document.getElementById('botao-explorar');
 const painelFiltros = document.getElementById('painel-filtros');
 const overlayFiltros = document.getElementById('filtros-overlay');
 
@@ -582,11 +581,6 @@ function fecharFiltros(restaurarFoco = true) {
 }
 
 botaoAbrirFiltros.addEventListener('click', abrirFiltros);
-botaoExplorar.addEventListener('click', () => {
-    if (document.body.classList.contains('filtros-abertos')) {
-        fecharFiltros(false);
-    }
-});
 botaoFecharFiltros.addEventListener('click', fecharFiltros);
 overlayFiltros.addEventListener('click', fecharFiltros);
 botaoLimparFiltros.addEventListener('click', () => {

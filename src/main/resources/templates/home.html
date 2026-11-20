@@ -49,32 +49,35 @@
 <div class="menu-lateral-icones">
     <div class="menu-superior">
         <div class="grupo-superior">
-            <button id="botao-explorar" class="icone-menu-btn" type="button"
-                    title="Início/Explorar" aria-label="Início/Explorar">
-                <svg class="icone-mapa" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/>
-                </svg>
-            </button>
-            <p>Explorar</p>
-            <button id="abrir-filtros" class="icone-menu-btn" type="button"
-                    title="Filtros" aria-label="Filtros"
-                    aria-controls="painel-filtros" aria-expanded="false">
-                <svg class="icone-filtro" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M3 5h18l-7 8v6l-4 2v-8L3 5Z"/>
-                </svg>
-            </button>
-            <p>Filtros</p>
+            <div class="item-menu filtros">
+                <button id="abrir-filtros" class="icone-menu-btn" type="button"
+                        title="Filtros" aria-label="Filtros"
+                        aria-controls="painel-filtros" aria-expanded="false">
+                    <svg class="icone-filtro" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 5h18l-7 8v6l-4 2v-8L3 5Z"/>
+                    </svg>
+                </button>
+                <p>Filtros</p>
+            </div>
         </div>
         <div class="grupo-inferior">
             <hr class="divider">
-            <button class="icone-menu-btn contribuir" title="Contribuir">+</button>
-            <p>Contribuir!</p>
+            <div class="item-menu contribuir">
+                <a class="icone-menu-btn contribuir" title="Contribuir" th:href="@{/contribuir}">+</a>
+                <p>Contribuir!</p>
+            </div>
         </div>
     </div>
 
     <div class="menu-inferior">
-        <a class="icone-menu-btn" title="Perfil" th:href="@{/login}">🖼️</a>
-        <p>Perfil</p>
+        <div class="item-menu perfil">
+            <a class="icone-menu-btn" title="Perfil" th:href="@{/login}" aria-label="Perfil">
+                <svg class="icone-perfil" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.42 0-8 2.24-8 5v2h16v-2c0-2.76-3.58-5-8-5Z"/>
+                </svg>
+            </a>
+            <p>Perfil</p>
+        </div>
     </div>
 </div>
 
@@ -104,4 +107,3 @@
 <script th:src="@{/home.js}"></script>
 </body>
 </html>
-
