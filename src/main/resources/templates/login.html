@@ -32,7 +32,7 @@
 
         <div class="login-container">
             <div class="login-logo">
-                <img src="./img/login.jpg" alt="Logo">
+                <img th:src="@{/img/login.jpg}" alt="Logo">
             </div>
             <div class="login-conteudo">
                 <h1>Que bom ter você aqui.</h1>
@@ -43,8 +43,8 @@
                     <label for="password">Senha:</label>
                     <input type="password" id="password" name="password" required placeholder="Digite sua senha">
                     <button type="submit">Login</button>
-                    <a class="explorar-sem-login" th:href="@{/h}">Explorar sem entrar</a>
-                    <p>Primeira vez aqui? <a href="#sobre">Cadastre-se</a></p>
+                    <a class="explorar-sem-login" th:href="@{/}">Explorar sem entrar</a>
+                    <p>Primeira vez aqui? <a th:href="@{/cadastro}">Cadastre-se</a></p>
                 </form>
             </div>
         </div>

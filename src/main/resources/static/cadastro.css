@@ -1,0 +1,228 @@
+/* ========================================================
+   DESKTOP
+   ======================================================== */
+/* 1. Cartão e formulário */
+.cadastro-container {
+    position: fixed;
+    top: 50%;
+    left: 52.5%;
+    width: min(460px, calc(100vw - 120px));
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+    display: block;
+    padding: 36px;
+    transform: translate(-50%, -50%);
+    border: 1px solid #d5d5d5;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.cadastro-container h3 {
+    margin: 0 0 8px;
+    color: #18734F;
+    font-size: 16px;
+}
+
+.cadastro-container h1 {
+    margin: 0 0 12px;
+    color: #204c3e;
+}
+
+.cadastro-container > p,
+.etapa-cadastro > p {
+    margin: 0 0 24px;
+    padding: 0;
+    color: #666666;
+    font-size: 16px;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.cadastro-container form {
+    display: block;
+}
+
+.cadastro-container label {
+    display: block;
+    margin: 0 0 6px;
+    color: #17372D;
+    font-weight: bold;
+}
+
+.cadastro-container input {
+    display: block;
+    width: 100%;
+    height: 44px;
+    margin: 0 0 24px;
+    padding: 0 14px;
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    background: #ffffff;
+    font: inherit;
+}
+
+.cadastro-container input:focus {
+    border-color: #18734F;
+    outline: 2px solid rgba(24, 115, 79, 0.2);
+}
+
+.cadastro-container button[type="submit"] {
+    width: 100%;
+    min-height: 44px;
+    border: 0;
+    border-radius: 8px;
+    background: #18734F;
+    color: #ffffff;
+    font: inherit;
+    cursor: pointer;
+}
+
+.cadastro-container button[type="submit"]:hover {
+    background: #125c3f;
+}
+
+.cadastro-container .botao-voltar {
+    width: 100%;
+    min-height: 44px;
+    margin-bottom: 8px;
+    border: 1px solid #18734F;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #18734F;
+    font: inherit;
+    cursor: pointer;
+}
+
+.cadastro-container .botao-voltar:hover {
+    background: #f0f7f3;
+}
+
+.cadastro-container form > p {
+    margin: 16px 0 0;
+    padding: 0;
+    color: #666666;
+    font-size: 14px;
+    text-align: center;
+}
+
+.cadastro-container a {
+    color: #18734F;
+    font-weight: bold;
+}
+
+/* 2. Transição entre etapas */
+.etapa-cadastro {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.etapa-cadastro[hidden] {
+    display: none;
+}
+
+.etapa-cadastro.is-fading-out,
+.etapa-cadastro.is-fading-in {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.etapa-cadastro.is-fading-out {
+    pointer-events: none;
+}
+
+/* 3. Perfil de acessibilidade */
+.perfil-acessibilidade > p {
+    width: auto;
+    margin: 0 0 16px;
+    padding: 0;
+    color: #52645a;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.perfil-acessibilidade form {
+    display: block;
+}
+
+.opcoes-acessibilidade {
+    display: grid;
+    gap: 6px;
+    min-width: 0;
+    margin: 0 0 16px;
+    padding: 12px;
+    border: 1px solid #d4e5db;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.opcoes-acessibilidade:last-child {
+    margin-bottom: 0;
+}
+
+.opcoes-acessibilidade legend {
+    padding: 0 6px;
+    color: #17372D;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.perfil-acessibilidade .opcao-acessibilidade {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    padding: 10px;
+    border-radius: 8px;
+    color: #34483e;
+    font-weight: normal;
+    line-height: 1.4;
+    cursor: pointer;
+}
+
+.opcao-acessibilidade:hover {
+    background: #f0f7f3;
+}
+
+.opcao-acessibilidade input[type="checkbox"] {
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    margin: 2px 0 0;
+    padding: 0;
+    accent-color: #18734F;
+    cursor: pointer;
+}
+
+.opcao-acessibilidade input[type="checkbox"]:focus-visible {
+    outline: 2px solid rgba(24, 115, 79, 0.4);
+    outline-offset: 2px;
+}
+
+/* ========================================================
+   MOBILE
+   ======================================================== */
+@media (max-width: 768px) {
+    .cadastro-container {
+        top: 50%;
+        left: 50%;
+        width: calc(100vw - 32px);
+        max-height: calc(100vh - 32px);
+        max-height: calc(100dvh - 32px);
+        padding: 24px 20px;
+        transform: translate(-50%, -50%);
+        pointer-events: auto;
+    }
+
+    .opcoes-acessibilidade {
+        padding: 10px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .etapa-cadastro {
+        transition: none;
+    }
+}

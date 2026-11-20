@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" th:href="@{/login.css}">
+    <link rel="stylesheet" th:href="@{/cadastro.css}">
+</head>
+<body>
+    <!-- Menu lateral de ícones -->
+    <div class="menu-lateral-icones">
+        <div class="menu-superior">
+            <div class="grupo-superior">
+                <a id="botao-explorar" class="icone-menu-btn" title="Início/Explorar"
+                   th:href="@{/}" aria-label="Início/Explorar">
+                    <svg class="icone-mapa" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/>
+                    </svg>
+                </a>
+                <p>Explorar</p>
+            </div>
+            <div class="grupo-inferior">
+                <hr class="divider">
+                <button class="icone-menu-btn contribuir" type="button" title="Contribuir">+</button>
+                <p>Contribuir!</p>
+            </div>
+        </div>
+
+        <div class="menu-inferior">
+            <a class="icone-menu-btn" title="Perfil" th:href="@{/login}">🖼️</a>
+            <p>Perfil</p>
+        </div>
+
+        <!-- Cadastro em etapas -->
+        <div class="cadastro-container login-conteudo">
+            <!-- Dados da conta -->
+            <section class="etapa-cadastro" id="etapa-conta" aria-labelledby="titulo-cadastro">
+                <h3>Mais autonomia, juntos</h3>
+                <h1 id="titulo-cadastro" tabindex="-1">A cidade também é sua.</h1>
+                <p>Crie sua conta para descobrir lugares e compartilhar caminhos mais acessíveis.</p>
+                <form id="form-cadastro">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required placeholder="voce@exemplo.com">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required placeholder="Digite sua senha">
+                    <button type="submit">Continuar</button>
+                    <p>Já tem uma conta? <a th:href="@{/login}">Entrar</a></p>
+                </form>
+            </section>
+
+            <!-- Perfil de acessibilidade -->
+            <section class="etapa-cadastro perfil-acessibilidade" id="etapa-acessibilidade"
+                     aria-labelledby="perfil-acessibilidade-titulo" hidden>
+                <h3>Seu perfil de acessibilidade</h3>
+                <h1 id="perfil-acessibilidade-titulo" tabindex="-1">Como podemos te ajudar?</h1>
+                <p>Escolha uma ou mais opções para personalizar seu uso do app.</p>
+                <form id="form-perfil-acessibilidade">
+                    <fieldset class="opcoes-acessibilidade">
+                        <legend>Acessibilidade</legend>
+                        <label class="opcao-acessibilidade" for="perfil-cadeira">
+                            <input type="checkbox" id="perfil-cadeira" name="perfil-acessibilidade[]"
+                                   value="cadeira-de-rodas-ou-andador">
+                            Uso cadeira de rodas ou andador
+                        </label>
+                        <label class="opcao-acessibilidade" for="perfil-sinais">
+                            <input type="checkbox" id="perfil-sinais" name="perfil-acessibilidade[]"
+                                   value="lingua-de-sinais">
+                            Uso língua de sinais
+                        </label>
+                        <label class="opcao-acessibilidade" for="perfil-braille">
+                            <input type="checkbox" id="perfil-braille" name="perfil-acessibilidade[]"
+                                   value="leio-braille">
+                            Prefiro / leio braille
+                        </label>
+                        <label class="opcao-acessibilidade" for="perfil-cao-guia">
+                            <input type="checkbox" id="perfil-cao-guia" name="perfil-acessibilidade[]"
+                                   value="cao-guia">
+                            Viajo com cão-guia
+                        </label>
+                    </fieldset>
+                    <fieldset class="opcoes-acessibilidade">
+                        <legend>Mobilidade reduzida</legend>
+                        <label class="opcao-acessibilidade" for="perfil-prioridade">
+                            <input type="checkbox" id="perfil-prioridade" name="perfil-acessibilidade[]"
+                                   value="assento-ou-vaga-prioritaria">
+                            Tenho direito a assento ou vaga prioritária (gestante, idoso, criança de colo ou pessoa obesa)
+                        </label>
+                    </fieldset>
+                    <button class="botao-voltar" id="voltar-cadastro" type="button">Voltar</button>
+                    <button type="submit">Cadastrar</button>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <!-- Script do cadastro -->
+    <script th:src="@{/cadastro.js}"></script>
+</body>
+</html>

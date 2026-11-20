@@ -9,7 +9,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("titulo", "Adoção de Pets");
+        model.addAttribute("titulo", "Mapa");
         return "home"; // procura templates/home.html
     }
 }
