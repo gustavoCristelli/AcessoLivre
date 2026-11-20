@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribuir</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" th:href="@{/login.css}">
+    <link rel="stylesheet" th:href="@{/contribuir.css}">
+    <link rel="stylesheet" th:href="@{/mapa-fundo.css}">
+</head>
+<body>
+    <!-- Mapa de fundo sem interação -->
+    <div id="mapa-fundo" aria-hidden="true"></div>
+
+    <!-- Menu lateral de ícones -->
+    <div class="menu-lateral-icones">
+        <div class="menu-superior">
+            <div class="grupo-superior">
+                <div class="item-menu mapa">
+                    <a id="botao-explorar" class="icone-menu-btn" title="Início/Explorar"
+                       th:href="@{/}" aria-label="Início/Explorar">
+                        <svg class="icone-mapa" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/>
+                        </svg>
+                    </a>
+                    <p>Mapa</p>
+                </div>
+            </div>
+            <div class="grupo-inferior">
+                <hr class="divider">
+                <div class="item-menu contribuir">
+                    <a class="icone-menu-btn contribuir" title="Contribuir" th:href="@{/contribuir}"
+                       aria-label="Contribuir">+</a>
+                    <p>Contribuir!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-inferior">
+            <div class="item-menu perfil">
+                <a class="icone-menu-btn" title="Perfil" th:href="@{/login}" aria-label="Perfil">
+                    <svg class="icone-perfil" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.42 0-8 2.24-8 5v2h16v-2c0-2.76-3.58-5-8-5Z"/>
+                    </svg>
+                </a>
+                <p>Perfil</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulário para compartilhar um local -->
+    <main class="contribuir-container login-conteudo">
+        <section aria-labelledby="titulo-contribuir">
+            <h3>Mais acessibilidade, juntos</h3>
+            <h1 id="titulo-contribuir" tabindex="-1">Cadastrar local</h1>
+            <p>Compartilhe lugares e ajude a construir uma cidade mais acessível.</p>
+
+            <form id="form-contribuir">
+                <label for="nome-local">Nome do local:</label>
+                <input type="text" id="nome-local" name="nome-local" required
+                       placeholder="Digite o nome do local">
+
+                <label for="localizacao">Localização:</label>
+                <input type="text" id="localizacao" name="localizacao" disabled
+                       placeholder="Sua Localização">
+
+                <fieldset class="recursos-acessibilidade">
+                    <legend>Recursos de acessibilidade</legend>
+                    <div class="tabela-recursos-container">
+                        <table class="tabela-recursos">
+                            <thead>
+                            <tr>
+                                <th scope="col">Recurso</th>
+                                <th scope="col">Sim</th>
+                                <th scope="col">Não</th>
+                                <th scope="col"><span class="texto-acessivel">Limpar resposta</span></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">Rampa</th>
+                                <td><input type="radio" id="rampa-sim" name="rampa" value="sim"
+                                           aria-label="Rampa: sim"></td>
+                                <td><input type="radio" id="rampa-nao" name="rampa" value="nao"
+                                           aria-label="Rampa: não"></td>
+                                <td><button class="limpar-resposta" type="button" aria-label="Limpar resposta sobre rampa">×</button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Banheiro acessível</th>
+                                <td><input type="radio" id="banheiro-sim" name="banheiro" value="sim"
+                                           aria-label="Banheiro acessível: sim"></td>
+                                <td><input type="radio" id="banheiro-nao" name="banheiro" value="nao"
+                                           aria-label="Banheiro acessível: não"></td>
+                                <td><button class="limpar-resposta" type="button" aria-label="Limpar resposta sobre banheiro acessível">×</button></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Piso tátil</th>
+                                <td><input type="radio" id="piso-tatil-sim" name="piso-tatil" value="sim"
+                                           aria-label="Piso tátil: sim"></td>
+                                <td><input type="radio" id="piso-tatil-nao" name="piso-tatil" value="nao"
+                                           aria-label="Piso tátil: não"></td>
+                                <td><button class="limpar-resposta" type="button" aria-label="Limpar resposta sobre piso tátil">×</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+
+                <input class="texto-acessivel" type="file" id="fotos-local" name="fotos-local"
+                       accept="image/*" multiple aria-describedby="status-fotos-local">
+                <div class="area-anexar-fotos" id="area-anexar-fotos" role="button" tabindex="0"
+                     aria-controls="fotos-local" aria-label="Anexar fotos. Clique ou arraste imagens aqui.">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v11H3V8a1 1 0 0 1 1-1Zm8 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0-2a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/>
+                    </svg>
+                    <span>Anexar fotos</span>
+                    <span class="instrucao-anexar">Clique ou arraste imagens para cá</span>
+                    <span id="status-fotos-local" class="status-fotos-local" aria-live="polite"></span>
+                </div>
+                <button class="botao-cadastrar-local" type="submit">Cadastrar local</button>
+            </form>
+        </section>
+    </main>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script th:src="@{/mapa-fundo.js}"></script>
+    <script th:src="@{/contribuir.js}"></script>
+</body>
+</html>

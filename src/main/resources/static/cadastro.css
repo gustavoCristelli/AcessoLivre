@@ -31,12 +31,18 @@
 
 .cadastro-container > p,
 .etapa-cadastro > p {
+    display: block;
+    width: 100%;
+    max-width: 100%;
     margin: 0 0 24px;
     padding: 0;
+    white-space: normal;
+    overflow-wrap: anywhere;
     color: #666666;
     font-size: 16px;
     line-height: 1.4;
     text-align: left;
+    
 }
 
 .cadastro-container form {
@@ -206,11 +212,11 @@
    ======================================================== */
 @media (max-width: 768px) {
     .cadastro-container {
-        top: 50%;
+        top: calc((100dvh - 76px) / 2);
         left: 50%;
         width: calc(100vw - 32px);
-        max-height: calc(100vh - 32px);
-        max-height: calc(100dvh - 32px);
+        max-height: calc(100vh - 100px);
+        max-height: calc(100dvh - 100px);
         padding: 24px 20px;
         transform: translate(-50%, -50%);
         pointer-events: auto;

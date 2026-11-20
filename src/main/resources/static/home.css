@@ -229,6 +229,13 @@ html, body {
     width: 100%;
 }
 
+.item-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
 /* Agrupa Explorar/Filtros e Contribuir no menu lateral desktop. */
 .grupo-superior,
 .grupo-inferior {
@@ -287,6 +294,7 @@ html, body {
 }
 
 .icone-menu-btn .icone-mapa,
+.icone-menu-btn .icone-perfil,
 .icone-menu-btn .icone-filtro {
     width: 22px;
     height: 22px;
@@ -637,20 +645,19 @@ body.filtros-abertos .painel-filtros {
     #map {
         position: relative;
         width: 100%;
-        height: 92%;
+        height: calc(100dvh - 76px);
         top: auto;
         left: auto;
     }
 
     .menu-lateral-icones {
-        position: relative;
-        top: auto;
-        bottom: auto;
-        left: auto;
+        position: fixed;
+        inset: auto 0 0;
+        z-index: 4000;
         transform: none;
         flex-direction: row;
         width: 100%;
-        height: 65px;
+        height: 76px;
         background: #ffffff;
         border-radius: 0;
         border-top: 1px solid #e0e0e0;
@@ -676,29 +683,18 @@ body.filtros-abertos .painel-filtros {
         display: contents;
     }
 
-    .menu-espacador {
-        display: none;
-    }
-
-    #botao-explorar {
-        display: none;
-    }
-
-    #abrir-filtros {
-        order: 1;
-    }
-
-    .grupo-inferior > .icone-menu-btn[title="Contribuir"] {
-        order: 2;
-    }
-
-    .menu-inferior > .icone-menu-btn[title="Perfil"] {
-        order: 3;
+    .menu-lateral-icones .item-menu {
+        display: flex;
+        flex: 1 1 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
     }
 
     .menu-lateral-icones .icone-menu-btn {
-        width: 45px;
-        height: 45px;
+        width: 36px;
+        height: 36px;
         font-size: 22px;
     }
 
@@ -711,7 +707,18 @@ body.filtros-abertos .painel-filtros {
     }
 
     .menu-lateral-icones p {
-        display: none;
+        display: block;
+        width: auto;
+        margin: 0;
+        padding: 0;
+        color: #18734F;
+        font-size: 11px;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+
+    .menu-lateral-icones .grupo-superior p {
+        color: #18734F;
     }
 
     .menu-lateral-icones .divider {
@@ -739,17 +746,17 @@ body.filtros-abertos .painel-filtros {
 
     /* A aba sobe no mobile sem cobrir o menu inferior */
     .filtros-overlay {
-        inset: 0 0 65px;
+        inset: 0 0 76px;
     }
 
     .painel-filtros {
         top: auto;
         right: 0;
-        bottom: 65px;
+        bottom: 76px;
         left: 0;
         width: 100%;
         height: 75vh;
-        max-height: calc(100vh - 65px);
+        max-height: calc(100vh - 76px);
         border-radius: 16px 16px 0 0;
         box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
         transform: translateY(100%);
@@ -764,7 +771,7 @@ body.filtros-abertos .painel-filtros {
     .barra-pesquisa.modo-trajeto {
         position: absolute;
         top: auto;
-        bottom: 75px;
+        bottom: 86px;
         left: 12px;
         right: 12px;
         width: auto;

@@ -1,0 +1,27 @@
+/* ========================================================
+   Mapa estático de fundo das telas de acesso e contribuição
+   ======================================================== */
+#mapa-fundo {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.28;
+    filter: grayscale(0.35);
+    pointer-events: none;
+}
+
+.menu-lateral-icones {
+    z-index: 4000;
+}
+
+.login-container,
+.cadastro-container,
+.contribuir-container {
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        background: transparent;
+    }
+}
