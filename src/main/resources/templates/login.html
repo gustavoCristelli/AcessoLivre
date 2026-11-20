@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/login.css}">
+</head>
+<body>
+    <div class="menu-lateral-icones">
+        <div class="menu-superior">
+            <div class="grupo-superior">
+                <a id="botao-explorar" class="icone-menu-btn" title="Início/Explorar"
+                   th:href="@{/}" aria-label="Início/Explorar">
+                    <svg class="icone-mapa" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/>
+                    </svg>
+                </a>
+                <p>Explorar</p>
+            </div>
+            <div class="grupo-inferior">
+                <hr class="divider">
+                <button class="icone-menu-btn contribuir" title="Contribuir">+</button>
+                <p>Contribuir!</p>
+            </div>
+        </div>
+
+        <div class="menu-inferior">
+            <button class="icone-menu-btn" title="Perfil">🖼️</button>
+            <p>Perfil</p>
+        </div>
+
+        <div class="login-container">
+            <div class="login-logo">
+                <img src="./img/login.jpg" alt="Logo">
+            </div>
+            <div class="login-conteudo">
+                <h1>Que bom ter você aqui.</h1>
+                <p>Entre e planeje sua próxima saída com mais informação e menos surpresas.</p>
+                <form>
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required placeholder="voce@exemplo.com">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" name="password" required placeholder="Digite sua senha">
+                    <button type="submit">Login</button>
+                    <a class="explorar-sem-login" th:href="@{/h}">Explorar sem entrar</a>
+                    <p>Primeira vez aqui? <a href="#sobre">Cadastre-se</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script th:src="@{/login.js}"></script>
+</body>
+</html>
