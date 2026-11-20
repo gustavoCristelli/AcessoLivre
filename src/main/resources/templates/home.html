@@ -5,23 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mapa de Acessibilidade - PCD</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" th:href="@{/style.css}">
+    <link rel="stylesheet" th:href="@{/home.css}">
 </head>
 <body>
 
 <!-- Barra de Pesquisa e Sugestões -->
 <div class="barra-pesquisa">
-    <input id="pesquisa-local" type="search" placeholder="Pesquisar local..."
-           aria-label="Pesquisar locais acessíveis" role="combobox"
-           aria-autocomplete="list" aria-controls="sugestoes-locais"
-           aria-expanded="false">
-    <ul id="sugestoes-locais" class="sugestoes-locais" role="listbox" hidden></ul>
+    <div id="pesquisa-simples">
+        <input id="pesquisa-local" type="search" placeholder="Pesquisar local..."
+               aria-label="Pesquisar locais acessíveis" role="combobox"
+               aria-autocomplete="list" aria-controls="sugestoes-locais"
+               aria-expanded="false">
+        <ul id="sugestoes-locais" class="sugestoes-locais" role="listbox" hidden></ul>
+    </div>
+    <div id="pesquisa-trajeto" hidden>
+        <div class="campos-trajeto">
+            <input id="origem-trajeto" type="search" placeholder="Local de origem"
+                   aria-label="Local de origem" role="combobox"
+                   aria-autocomplete="list" aria-controls="sugestoes-trajeto"
+                   aria-expanded="false">
+            <input id="destino-trajeto" type="search" placeholder="Local de destino"
+                   aria-label="Local de destino" role="combobox"
+                   aria-autocomplete="list" aria-controls="sugestoes-trajeto"
+                   aria-expanded="false">
+            <ul id="sugestoes-trajeto" class="sugestoes-locais" role="listbox"></ul>
+        </div>
+        <p id="status-trajeto" aria-live="polite">Selecione os locais de origem e destino.</p>
+        <button id="voltar-pesquisa" type="button">Voltar</button>
+    </div>
 </div>
 
 <!-- Navegação Superior -->
 <nav class="navbar-topo" aria-label="Navegação principal">
-    <div class="navbar-logo" aria-label="Espaço para logo">Logo</div>
     <a class="navbar-sobre" href="#sobre">Sobre nós</a>
+    <div class="navbar-logo" aria-label="Espaço para logo">Logo</div>
+    <p>"Caminhos ficam mais livres quando mapeamos juntos"</p>
 </nav>
 
 <!-- Mapa -->
@@ -30,19 +48,32 @@
 <!-- Menu Lateral de Ícones -->
 <div class="menu-lateral-icones">
     <div class="menu-superior">
-        <button id="botao-explorar" class="icone-menu-btn" type="button"
-                title="Início/Explorar" href="home.html">🖼️</button>
-        <p>Explorar</p>
-        <button id="abrir-filtros" class="icone-menu-btn" type="button"
-                title="Filtros" aria-controls="painel-filtros" aria-expanded="false">🖼️</button>
-        <p>Filtros</p>
-        <hr class="divider">
-        <button class="icone-menu-btn contribuir" title="Contribuir">+</button>
-        <p>Contribuir!</p>
+        <div class="grupo-superior">
+            <button id="botao-explorar" class="icone-menu-btn" type="button"
+                    title="Início/Explorar" aria-label="Início/Explorar">
+                <svg class="icone-mapa" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/>
+                </svg>
+            </button>
+            <p>Explorar</p>
+            <button id="abrir-filtros" class="icone-menu-btn" type="button"
+                    title="Filtros" aria-label="Filtros"
+                    aria-controls="painel-filtros" aria-expanded="false">
+                <svg class="icone-filtro" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 5h18l-7 8v6l-4 2v-8L3 5Z"/>
+                </svg>
+            </button>
+            <p>Filtros</p>
+        </div>
+        <div class="grupo-inferior">
+            <hr class="divider">
+            <button class="icone-menu-btn contribuir" title="Contribuir">+</button>
+            <p>Contribuir!</p>
+        </div>
     </div>
 
     <div class="menu-inferior">
-        <button class="icone-menu-btn" title="Perfil">🖼️</button>
+        <a class="icone-menu-btn" title="Perfil" href="login.html">🖼️</a>
         <p>Perfil</p>
     </div>
 </div>
@@ -69,7 +100,8 @@
 
 <!-- Bibliotecas e Scripts -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script th:src="@{/script.js}"></script>
+<!-- O trajeto é consultado pela API pública do OSRM no home.js. -->
+<script th:src="@{/home.js}"></script>
 </body>
 </html>
 

@@ -1,0 +1,778 @@
+/* ========================================================
+   DESKTOP
+   ======================================================== */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+#map {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* Controle dos botoes de zoom */
+.leaflet-top {
+    top: 65px !important;
+}
+
+/* Campos e sugestões para pesquisa e planejamento de trajetos */
+.barra-pesquisa {
+    position: absolute;
+    top: 10px;
+    left: 85px;
+    width: 300px;
+    z-index: 2000;
+    margin: 10px;
+}
+
+.barra-pesquisa input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    font: inherit;
+}
+
+.barra-pesquisa input[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+    filter: brightness(0);
+}
+
+.barra-pesquisa.modo-trajeto {
+    margin: 0;
+    z-index: 999;
+}
+
+#pesquisa-trajeto {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    height: 100%;
+    max-height: 100%;
+    padding: 12px;
+    overflow-y: auto;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+}
+
+#pesquisa-trajeto[hidden] {
+    display: none;
+}
+
+.campos-trajeto {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#sugestoes-trajeto {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    z-index: 2100;
+    max-height: 180px;
+    margin: 0;
+}
+
+#status-trajeto {
+    margin: 0;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #333333;
+    font-size: 13px;
+}
+
+#voltar-pesquisa,
+.botao-iniciar-trajeto {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 0;
+    border-radius: 8px;
+    background: #18734F;
+    color: #ffffff;
+    font: inherit;
+    cursor: pointer;
+}
+
+#voltar-pesquisa {
+    margin-top: auto;
+}
+
+#voltar-pesquisa:hover,
+.botao-iniciar-trajeto:hover {
+    background: #125c3f;
+}
+
+.navbar-topo {
+    position: absolute;
+    top: 20px;
+    left: 415px;
+    z-index: 2000;
+    width: calc(100% - 430px);
+    height: 44px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 0 16px;
+    border: 1px solid #d5d5d5;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #1a8d5f, #0f4c34);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    box-sizing: border-box;
+    color: #ffffff;
+}
+
+.navbar-logo {
+    min-width: 64px;
+    font-weight: bold;
+}
+
+.navbar-topo p {
+    order: -1;
+    margin-right: auto;
+    color: #9deccd;
+    font-style: italic;
+    font-size: 14px;
+}
+
+.navbar-sobre {
+    white-space: nowrap;
+    color: #ffffff;
+}
+
+.sugestoes-locais {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    max-height: 280px;
+    margin: 0;
+    padding: 4px 0;
+    overflow-y: auto;
+    list-style: none;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.sugestoes-locais[hidden] {
+    display: none;
+}
+
+.sugestoes-locais li {
+    padding: 11px 14px;
+    color: #333;
+    cursor: pointer;
+}
+
+.sugestoes-locais li.sugestao-localizacao {
+    color: #18734F;
+    font-weight: 600;
+}
+
+.sugestoes-locais li[aria-selected="true"],
+.sugestoes-locais li[role="option"]:hover {
+    background: #f0f0f0;
+}
+
+.sugestoes-locais .sem-resultados {
+    color: #666;
+    cursor: default;
+}
+
+/* ========================================================
+   1. Painel Lateral
+   ======================================================== */
+.menu-lateral-icones {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 75px;
+    background: white;
+    border-right: 1px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0;
+    z-index: 4000;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.menu-superior {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+/* Agrupa Explorar/Filtros e Contribuir no menu lateral desktop. */
+.grupo-superior,
+.grupo-inferior {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.grupo-superior {
+    width: calc(100% - 16px);
+    padding: 8px 0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1a8d5f, #0f4c34);
+}
+
+.menu-lateral-icones .grupo-superior p {
+    color: #ffffff;
+}
+
+.menu-lateral-icones .grupo-superior .icone-menu-btn .icone-mapa {
+    fill: #ffffff;
+}
+
+.menu-lateral-icones .grupo-superior .icone-menu-btn .icone-filtro {
+    stroke: #ffffff;
+}
+
+.grupo-superior .icone-menu-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.menu-inferior {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.icone-menu-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.icone-menu-btn .icone-mapa,
+.icone-menu-btn .icone-filtro {
+    width: 22px;
+    height: 22px;
+    fill: #6c757d;
+}
+
+.icone-menu-btn .icone-filtro {
+    fill: none;
+    stroke: #6c757d;
+    stroke-width: 2;
+    stroke-linejoin: round;
+}
+
+.icone-menu-btn.contribuir {
+    background-color: #18734F;
+    color: white;
+}
+
+.icone-menu-btn.contribuir:hover {
+    background-color: #1d865c;
+    color: #ffffff;
+}
+
+.icone-menu-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.menu-lateral-icones p {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: #18734F;
+    text-align: center;
+    width: 100%;
+    padding: 0 4px;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    white-space: normal;
+    line-height: 1.2;
+}
+
+.menu-inferior p {
+    margin: 0;
+}
+
+.divider {
+    display: block;
+    flex: 0 0 auto;
+    width: calc(100% - 24px);
+    height: 5px;
+    border: 0;
+    background-color: #18734F;
+    margin: 8px 0;
+    border-radius: 2px;
+}
+
+/* ========================================================
+   2. Painel Expansível e Trajeto
+   ======================================================== */
+#menu-detalhes,
+.barra-pesquisa.modo-trajeto {
+    position: absolute;
+    top: 10px;
+    left: 85px;
+    width: 320px;
+    height: 100%;
+    max-height: calc(100vh - 20px);
+    box-sizing: border-box;
+}
+
+#menu-detalhes {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    z-index: 999;
+    overflow-y: auto;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#menu-detalhes ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    list-style: none; /* Remove as bolinhas da lista */
+    padding: 0;
+    margin: 10px 0;
+}
+
+#menu-detalhes ul li {
+    background-color: #f3f4f6;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+
+#menu-detalhes ul li.tem-acessibilidade {
+    background-color: #ceffea;
+    color: #000000;
+}
+
+#menu-detalhes ul li.sem-acessibilidade {
+    background-color: #ffcece;
+    color: #000000;
+}
+
+/* Animação do Menu ocultando */
+#menu-detalhes.oculto {
+    transform: translateX(-30px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ========================================================
+   3. Aba de Filtros
+   ======================================================== */
+.filtros-overlay {
+    position: fixed;
+    inset: 0 0 0 75px;
+    z-index: 3000;
+    padding: 0;
+    border: 0;
+    background: rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.painel-filtros {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 75px;
+    z-index: 3000;
+    width: min(360px, calc(100vw - 75px));
+    padding: 20px;
+    overflow-y: auto;
+    background: #ffffff;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: transform 0.3s ease, visibility 0.3s ease;
+}
+
+body.filtros-abertos .filtros-overlay {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+body.filtros-abertos .painel-filtros {
+    transform: translateX(0);
+    visibility: visible;
+}
+
+.cabecalho-filtros {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.cabecalho-filtros h2 {
+    margin: 0;
+    color: #17372D;
+    font-size: 20px;
+}
+
+.fechar-filtros {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    border-radius: 8px;
+    background: transparent;
+    color: #17372D;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.fechar-filtros:hover {
+    background: #f0f0f0;
+}
+
+.opcoes-filtros {
+    display: grid;
+    gap: 12px;
+    margin: 20px 0;
+    padding: 0;
+    border: 0;
+}
+
+.opcoes-filtros legend {
+    margin-bottom: 12px;
+    color: #17372D;
+    font-weight: bold;
+}
+
+.opcao-filtro {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #333333;
+    cursor: pointer;
+}
+
+.opcao-filtro input {
+    width: 18px;
+    height: 18px;
+    accent-color: #18734F;
+}
+
+.resultado-filtros {
+    color: #666666;
+    font-size: 14px;
+}
+
+.limpar-filtros {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid #18734F;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #18734F;
+    font: inherit;
+    cursor: pointer;
+}
+
+.limpar-filtros:hover {
+    background: #f0f7f3;
+}
+
+.conteudomenu {
+    padding: 15px;
+}
+
+.conteudomenu h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: #333;
+    color: #17372D;
+}
+
+.botao-iniciar-trajeto {
+    margin-bottom: 8px;
+}
+
+.conteudomenu p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.conteudomenu ul {
+    padding-left: 20px;
+    margin: 12px 0 0 0;
+}
+
+.conteudomenu li {
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    display: block;
+}
+
+/* ========================================================
+   Estilização SVG Pino
+   ======================================================== */
+.custom-svg-pin {
+    background: transparent;
+    border: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.custom-svg-pin svg path {
+    transition: fill 0.2s ease;
+}
+
+.pin-verde svg path {
+    fill: #18734F;
+}
+
+/* Inativo */
+.pin-cinza svg path {
+    fill: #6c757d;
+}
+
+.pin-cinza {
+    opacity: 0.55;
+}
+
+.user-marker {
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+}
+
+.user-marker-pulse {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    background: #18734F;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.45);
+}
+
+.user-marker-pulse::before {
+    position: absolute;
+    z-index: -1;
+    inset: -5px;
+    border: 2px solid #18734F;
+    border-radius: 50%;
+    content: "";
+    animation: user-marker-radar 2s ease-out infinite;
+}
+
+@keyframes user-marker-radar {
+    0% {
+        transform: scale(0.6);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: scale(2.4);
+        opacity: 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .user-marker-pulse::before {
+        animation: none;
+    }
+}
+
+/* ========================================================
+   MOBILE
+   ======================================================== */
+@media (max-width: 768px) {
+    #map {
+        position: relative;
+        width: 100%;
+        height: 92%;
+        top: auto;
+        left: auto;
+    }
+
+    .menu-lateral-icones {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        flex-direction: row;
+        width: 100%;
+        height: 65px;
+        background: #ffffff;
+        border-radius: 0;
+        border-top: 1px solid #e0e0e0;
+        padding: 0;
+        gap: 0;
+        justify-content: space-around;
+        box-shadow: 0 -2px 8px rgba(0,0,0,0.08);
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .menu-superior {
+        display: contents;
+    }
+
+    /* Mantém os itens dos grupos no fluxo da barra mobile. */
+    .grupo-superior,
+    .grupo-inferior {
+        display: contents;
+    }
+
+    .menu-inferior {
+        display: contents;
+    }
+
+    .menu-espacador {
+        display: none;
+    }
+
+    #botao-explorar {
+        display: none;
+    }
+
+    #abrir-filtros {
+        order: 1;
+    }
+
+    .grupo-inferior > .icone-menu-btn[title="Contribuir"] {
+        order: 2;
+    }
+
+    .menu-inferior > .icone-menu-btn[title="Perfil"] {
+        order: 3;
+    }
+
+    .menu-lateral-icones .icone-menu-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 22px;
+    }
+
+    .menu-lateral-icones .grupo-superior .icone-menu-btn .icone-filtro {
+        stroke: #6c757d;
+    }
+
+    .grupo-superior .icone-menu-btn:hover {
+        background-color: #f0f0f0;
+    }
+
+    .menu-lateral-icones p {
+        display: none;
+    }
+
+    .menu-lateral-icones .divider {
+        display: none;
+    }
+
+    .barra-pesquisa {
+        position: fixed;
+        top: 12px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        z-index: 2000;
+        margin: 0 auto;
+    }
+
+    .navbar-topo {
+        display: none;
+    }
+
+    .leaflet-top {
+        top: 65px !important;
+        display: none;
+    }
+
+    /* A aba sobe no mobile sem cobrir o menu inferior */
+    .filtros-overlay {
+        inset: 0 0 65px;
+    }
+
+    .painel-filtros {
+        top: auto;
+        right: 0;
+        bottom: 65px;
+        left: 0;
+        width: 100%;
+        height: 75vh;
+        max-height: calc(100vh - 65px);
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.25);
+        transform: translateY(100%);
+        z-index: 3001;
+    }
+
+    body.filtros-abertos .painel-filtros {
+        transform: translateY(0);
+    }
+
+    #menu-detalhes,
+    .barra-pesquisa.modo-trajeto {
+        position: absolute;
+        top: auto;
+        bottom: 75px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        height: 40vh;
+        max-height: 40vh;
+        z-index: 1001;
+    }
+    .img {
+        height: 150px;
+    }
+}
