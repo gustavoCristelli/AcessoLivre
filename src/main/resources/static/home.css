@@ -113,6 +113,31 @@ html, body {
     cursor: pointer;
 }
 
+.botao-atualizar-trajeto {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 0;
+    margin-left: 20px;
+    border-radius: 8px;
+    background: #18734F;
+    color: #ffffff;
+    font: inherit;
+    cursor: pointer;
+}
+
+.botao-excluir-trajeto {
+    min-height: 40px;
+    padding: 0 14px;
+    border: 0;
+    margin-left: 20px;
+    border-radius: 8px;
+    background: #9a1b15;
+    color: #ffffff;
+    font: inherit;
+    cursor: pointer;
+}
+
+
 #voltar-pesquisa {
     margin-top: auto;
 }
@@ -311,6 +336,22 @@ html, body {
 .icone-menu-btn.contribuir {
     background-color: #18734F;
     color: white;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+.icone-menu-btn.contribuir:hover {
+    background-color: #125c3e;
 }
 
 .icone-menu-btn.contribuir:hover {

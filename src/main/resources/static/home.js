@@ -25,28 +25,41 @@ window.addEventListener('resize', () => {
 // ========================================================
 // 3. Dados dos Locais Acessíveis
 // ========================================================
-const locaisAcessiveis = [
-    {
-        nome: "Café Central",
-        lat: -19.4640,
-        lng: -44.2450,
-        rampa: true,
-        banheiro: false,
-        pisoTatil: true,
-        foto: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400",
-        descricao: "Possui rampa na entrada, mas o banheiro é estreito."
-    },
-    {
-        nome: "Praça da Boa Vista",
-        lat: -19.4680,
-        lng: -44.2490,
-        rampa: true,
-        banheiro: true,
-        pisoTatil: true,
-        foto: "https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=400",
-        descricao: "Ambiente totalmente plano e com piso tátil adequado."
+let locaisAcessiveis = [];
+
+async function carregarLocais() {
+    try {
+        const response = await fetch('http://localhost:8080/api/locais');
+
+        if (!response.ok) {
+            throw new Error('Erro ao buscar locais');
+        }
+
+        locaisAcessiveis = await response.json();
+
+        locaisAcessiveis.forEach((local, index) => {
+            const marker = L.marker(
+                [local.lat, local.lng],
+                { icon: iconeVerde }
+            ).addTo(map);
+
+            marcadoresCriados.push({
+                markerInstance: marker,
+                index: index
+            });
+
+            marker.on('click', (e) => {
+                L.DomEvent.stopPropagation(e);
+                mostrarDetalhesLocal(index);
+            });
+        });
+
+    } catch (error) {
+        console.error('Erro ao carregar locais:', error);
     }
-];
+}
+
+carregarLocais();
 
 const painelDetalhes = document.getElementById('menu-detalhes');
 const campoPesquisa = document.getElementById('pesquisa-local');
@@ -100,16 +113,6 @@ const iconeCinza = L.divIcon({
 
 const marcadoresCriados = [];
 
-locaisAcessiveis.forEach((local, index) => {
-    const marker = L.marker([local.lat, local.lng], { icon: iconeVerde }).addTo(map);
-    marcadoresCriados.push({ markerInstance: marker, index: index });
-
-    marker.on('click', (e) => {
-        L.DomEvent.stopPropagation(e);
-
-        mostrarDetalhesLocal(index);
-    });
-});
 
 // Gera as opções de filtro a partir das propriedades booleanas dos locais.
 function rotuloFiltro(campo) {
@@ -193,6 +196,18 @@ function mostrarDetalhesLocal(index) {
                     <li class="${local.banheiro ? 'tem-acessibilidade' : 'sem-acessibilidade'}">${statusBanheiro}</li>
                 </ul>
             </div>
+
+              <div class="acoes-local">
+        <button type="button" class="botao-atualizar-trajeto" onclick="editarLocal(${index})">
+            <i class="fa-solid fa-pen"></i>
+            Atualizar
+        </button>
+
+        <button type="button" class="botao-excluir-trajeto" onclick="excluirLocal(${local.id})">
+            <i class="fa-solid fa-trash"></i>
+            Excluir
+        </button>
+    </div>
         </div>
     `;
     painelDetalhes.classList.remove('oculto');
@@ -654,4 +669,58 @@ if (navigator.geolocation) {
             atualizarSugestoesTrajeto();
         }
     });
+}
+
+document.getElementById('botao-contribuir')
+    ?.addEventListener('click', () => {
+
+        // Limpa qualquer edição anterior
+        sessionStorage.removeItem('localEmEdicao');
+
+        // Abre o formulário
+        window.location.href = 'contribuir';
+    });
+
+
+// ========================================================
+// ABRIR FORMULÁRIO PARA EDITAR LOCAL
+// ========================================================
+
+function editarLocal(index) {
+
+    const local = locaisAcessiveis[index];
+
+    // Salva os dados do local selecionado
+    sessionStorage.setItem(
+        'localEmEdicao',
+        JSON.stringify(local)
+    );
+
+    // Abre o formulário
+    window.location.href = 'contribuir';
+}
+async function excluirLocal(id) {
+    if (!confirm('Deseja realmente excluir este local?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `http://localhost:8080/api/locais/${id}`,
+            { method: 'DELETE' }
+        );
+
+        if (!response.ok) {
+            throw new Error('Erro ao excluir local');
+        }
+
+        alert('Local excluído com sucesso!');
+
+        // Recarrega a página e os locais vindos do banco
+        window.location.reload();
+
+    } catch (error) {
+        console.error(error);
+        alert('Não foi possível excluir o local.');
+    }
 }
